@@ -25,6 +25,7 @@ public class FieldOfPlay {
         return cells.containsKey(cell);
     }
 
+
     public void add(Cell cell, Entity entity) {
         cells.put(cell, entity);
     }

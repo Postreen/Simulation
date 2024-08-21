@@ -5,18 +5,9 @@ public class Main {
 
         Simulation simulation = new Simulation();
 
-        //TurnAction turnAction = new TurnAction();
-
-
         simulation.gameLoop();
 
         System.out.println();
-
-//        field.add(cell,grass);
-
-
-//        rendererFieldOfPlay.showMap(field);
-
 
     }
 }
