@@ -1,18 +1,25 @@
 package org.example.actions;
 
+import org.example.entity.creatures.Herbivore;
+import org.example.entity.creatures.Predator;
 import org.example.field.Cell;
 import org.example.entity.Entity;
 import org.example.field.FieldOfPlay;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
-abstract class EntityGenerateAction<T extends Entity> implements Action {
+public abstract class EntityGenerateAction<T extends Entity> {
     public int spawnRate;
 
-    @Override
-    public void perform(FieldOfPlay field)  {
+    public void spawnEntity(FieldOfPlay field) {
+
+        checkForEntity(field);
+
         int rate = 0;
         while (rate < spawnRate) {
             Cell cell;
@@ -38,6 +45,16 @@ abstract class EntityGenerateAction<T extends Entity> implements Action {
             }
         }
         return cells.get(new Random().nextInt(cells.size()));
+    }
+
+    private static int checkForEntity(FieldOfPlay field) {
+
+        Collection<Entity> list = field.cells.values();
+        System.out.println(list.size());
+        System.out.println("f");
+        int rate = 0;
+
+        return rate;
     }
 
     abstract T createEntity();

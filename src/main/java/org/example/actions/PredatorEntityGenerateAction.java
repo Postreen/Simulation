@@ -10,6 +10,6 @@ public class PredatorEntityGenerateAction extends EntityGenerateAction {
     }
     @Override
     Entity createEntity() {
-        return new Predator(10,5);
+        return new Predator(0,5);
     }
 }

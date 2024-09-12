@@ -1,7 +1,10 @@
 package org.example.field;
 
 import org.example.entity.Entity;
+import org.example.entity.fieldobject.*;
 
+import java.awt.print.Paper;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +14,7 @@ import java.util.Set;
  */
 public class FieldOfPlay {
 
-    private Map<Cell, Entity> cells;
+    public Map<Cell, Entity> cells;
     private final int WIDTH;
     private final int HEIGHT;
 
@@ -50,8 +53,24 @@ public class FieldOfPlay {
         return HEIGHT;
     }
 
-    public Set<Cell> getCells() {
+    public Set<Cell> getCellsEntity() {
         return cells.keySet();
+    }
+    public Set<Cell> getCellsCreature() {
+        Map<Cell, Entity> cellsCreatures = cells;
+        boolean isFiltered = false;
+        while (isFiltered != true) {
+            if (cells.values().contains("🌳")) {
+                cells.values().remove("🌳");
+            } else if (cells.values().contains("🏔️")) {
+                cells.values().remove("🏔️");
+            }else if (cells.values().contains("🍀")) {
+                cells.values().remove("🍀");
+            } else {
+                isFiltered = true;
+            }
+        }
+        return cellsCreatures.keySet();
     }
 
 }

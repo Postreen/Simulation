@@ -1,20 +1,20 @@
 package org.example;
 
 import org.example.actions.*;
+import org.example.entity.Entity;
+import org.example.field.Cell;
 import org.example.field.FieldOfPlay;
 import org.example.field.RendererFieldOfPlay;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Simulation {
     FieldOfPlay field = new FieldOfPlay(10, 10);
 
 
     public void gameLoop() {
-        List<Action> initActions = new ArrayList<>();
-        List<Action> turnActions = new ArrayList<>();
+        List<EntityGenerateAction> initActions = new ArrayList<>();
+        List<MoveCreatureAction> turnActions = new ArrayList<>();
 
         int userEnteredLetter = -1;
 
@@ -30,15 +30,12 @@ public class Simulation {
 
             if (userEnteredLetter == 1) {
                 makeTurnActions(field, turnActions);
-                for (Action el : turnActions) {
-                    el.perform(field);
-                }
             } else if (userEnteredLetter == 2) {
                 while (true) {
                     makeTurnActions(field, turnActions);
-                    for (Action el : turnActions) {
-                        el.perform(field);
-                    }
+//                    for (MoveCreatureAction el : turnActions) {
+//                        el.perform(field);
+//                    }
                 }
             } else if (userEnteredLetter == 3) {
                 field = new FieldOfPlay(10, 10);
@@ -52,19 +49,22 @@ public class Simulation {
         }
 
     }
-    public void createActions(FieldOfPlay field, List<Action> initActions) {
+    public void createActions(FieldOfPlay field, List<EntityGenerateAction> initActions) {
         initActions.add(new GrassEntityGenerateAction(field));
         initActions.add(new RockEntityGenerateAction(field));
         initActions.add(new TreeEntityGenerateAction(field));
-        initActions.add(new HerbivoreEntityGenerateAction(field));
         initActions.add(new PredatorEntityGenerateAction(field));
-        for (Action el : initActions) {
-            el.perform(field);
+        initActions.add(new HerbivoreEntityGenerateAction(field));
+        for (EntityGenerateAction el : initActions) {
+            el.spawnEntity(field);
         }
     }
-    public void makeTurnActions(FieldOfPlay field, List<Action> turnActions){
+    public void makeTurnActions(FieldOfPlay field, List<MoveCreatureAction> turnActions){
         turnActions.add(new MoveCreatureAction());
-        turnActions.add(new GrassEntityGenerateAction(field));
+        Set<Cell> cellSet = new HashSet<>(field.getCellsCreature());
+        for (MoveCreatureAction el : turnActions) {
+            el.perform(field, cellSet);
+        }
     }
 
     public void displayGameMessages() {
